@@ -1,0 +1,5 @@
+---
+applications:
+ - name: icam-falloutCal
+   buildpack: java_buildpack
+   path: target/gs-spring-boot-0.1.0.jar
