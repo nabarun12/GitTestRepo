@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -85,7 +86,7 @@ public class FalloutController {
     	    value = "/readFavorite", 
     	method = RequestMethod.POST)
 
-    	public @ResponseBody PartFalloutVO readFavorite() throws Exception {
+    	public @ResponseBody ArrayList<PartFalloutVO> readFavorite() throws Exception {
 
     	
     	return processor.readFromCSV();

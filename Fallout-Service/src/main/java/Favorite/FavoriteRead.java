@@ -1,22 +1,25 @@
 package Favorite;
 
+import java.awt.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.*;
+
 import data.PartFalloutVO;
 
 public class FavoriteRead {
 
 
 
-	public  PartFalloutVO readFromCSV() throws IOException{
+	public  ArrayList<PartFalloutVO> readFromCSV() throws IOException{
 		
 		String csvFile = "src/main/resources/Favorites.csv";
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";	
 		PartFalloutVO partFalloutData=new PartFalloutVO();
-		
+		ArrayList<PartFalloutVO> listPartFallout = new ArrayList<PartFalloutVO>();
 		
             br = new BufferedReader(new FileReader(csvFile));
 			while ((line = br.readLine()) != null) {
@@ -32,11 +35,11 @@ public class FavoriteRead {
 				partFalloutData.setReplacePrice2(fall_out[7]);
 				partFalloutData.setFallOutPercentage(fall_out[8]);
 				partFalloutData.setFallOutCost(fall_out[9]);
-		
+				listPartFallout.add(partFalloutData);
 	   
 	}
 	br.close();
-	return partFalloutData;
+	return listPartFallout;
   }	
 
 }

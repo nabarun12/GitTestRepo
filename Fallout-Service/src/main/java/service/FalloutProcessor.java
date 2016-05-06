@@ -105,7 +105,7 @@ public class FalloutProcessor {
 		
 	}
    
-   public PartFalloutVO readFromCSV() throws IOException{
+   public ArrayList<PartFalloutVO> readFromCSV() throws IOException{
 		
 	   return favRead.readFromCSV();
 		
