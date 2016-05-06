@@ -51,21 +51,13 @@ public class FalloutController {
     	    consumes = "application/json")
 
     	//public HashMap<Integer, ArrayList<RecommendationVO>> process(@RequestBody EmployeeVO empVo) throws Exception {
-    	public String fallOutCalculation(@RequestBody PartFalloutVO partVo) throws Exception {
+    	public PartFalloutVO fallOutCalculation(@RequestBody PartFalloutVO partVo) throws Exception {
 
     	FalloutPart outPart = new FalloutPart();
     	outPart.setPartID("68823531");
-    	try {
-			processor.getInput(partVo);
-			return processor.processFallout(outPart)+" ";
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	logger.info("Finally Here");
-       
-    	return "Success";
-    	
+    	processor.getInput(partVo);
+		return processor.processFallout(outPart);
+			
     	}
     
     @RequestMapping(

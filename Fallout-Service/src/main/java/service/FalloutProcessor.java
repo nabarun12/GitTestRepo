@@ -40,6 +40,7 @@ import  data.FalloutRepairPart;
 import data.FalloutPartKit;
 import  data.FinFalloutData;
 import data.PartFalloutVO;
+import data.PartLimitsVO;
 import  data.FalloutPart;
 import  data.StepPartKit;
 
@@ -109,9 +110,10 @@ public class FalloutProcessor {
 		
 	}
    
-	public double processFallout(FalloutPart outPart) {
+	public PartFalloutVO processFallout(FalloutPart outPart) {
 		int jVar = 0;
         PartFalloutVO partFallOutVo = new PartFalloutVO();
+        PartLimitsVO partLimitsVo = new PartLimitsVO();
 		FalloutPartKit objPartKit = null;
 		FalloutPart objPart = null;
 		List lstRepairPart = null;
@@ -129,7 +131,7 @@ public class FalloutProcessor {
 
 				objPart = (FalloutPart) lstRepairPart.get(jVar);
 				objPartKit = (FalloutPartKit) _objFalloutData.getPartKitData().get(objPart.getPartKitId());
-				
+				partLimitsVo=(PartLimitsVO)_objFalloutData.getPartKitLimitData().get(objPart.getPartKitId());
 				if (null != objPartKit) {
 					totPartCount = objPartKit.getNoOfParts();
 
@@ -151,8 +153,10 @@ public class FalloutProcessor {
 		/*} catch (Exception e) {
 			logger.error("FalloutProcessor::processFallout: ", e);
 		}*/
-	    partFallOutVo.setFallOutPercentage(Double.toString(falloutPct));
-		return falloutPct;
+	    partFallOutVo.setFallOutPercentage(Double.toString((Math.round(falloutPct*100.0)/100.0)));
+	    partFallOutVo.setFallOutCost(Double.toString((Math.round((Double.parseDouble(partLimitsVo.getReplaceCost())*falloutPct)*100.0)/100.0)));
+	    
+		return partFallOutVo;
 	}
 
 	/**
