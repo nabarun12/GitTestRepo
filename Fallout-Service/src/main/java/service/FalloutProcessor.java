@@ -31,12 +31,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import Favorite.FavoriteRead;
+import Favorite.FavoriteWrite;
 import  data.ARConstants;
 import  data.DistributionType;
 import  data.FailureMode;
 import  data.FalloutRepairPart;
 import data.FalloutPartKit;
 import  data.FinFalloutData;
+import data.PartFalloutVO;
 import  data.FalloutPart;
 import  data.StepPartKit;
 
@@ -69,6 +72,10 @@ public class FalloutProcessor {
 	
 	private InputService inputserv = new InputService();
 	
+	private FavoriteWrite favWrite = new FavoriteWrite();
+	
+	private FavoriteRead favRead = new FavoriteRead();
+	
 	public FalloutProcessor(){};
 
 	public FalloutProcessor(FinFalloutData objFalloutData) {
@@ -82,16 +89,29 @@ public class FalloutProcessor {
 	 * Process fallout.
 	 * @throws IOException 
 	 */
-	public void getInput() throws IOException{
+	public void getInput(PartFalloutVO partVo) throws IOException{
 		
-		_objFalloutData = inputserv.processInputFallOutData();
+		_objFalloutData = inputserv.processInputFallOutData(partVo);
 		ztableMap = new HashMap();
 		//ztableMap.putAll(_objFalloutData.getzTableMap());
 		
 	}
+	
+   public void writeFavortie(PartFalloutVO partVo) throws IOException{
+		
+	    favWrite.processOutputFallOutData(partVo);
+		
+	}
+   
+   public PartFalloutVO readFromCSV() throws IOException{
+		
+	   return favRead.readFromCSV();
+		
+	}
+   
 	public double processFallout(FalloutPart outPart) {
 		int jVar = 0;
-         
+        PartFalloutVO partFallOutVo = new PartFalloutVO();
 		FalloutPartKit objPartKit = null;
 		FalloutPart objPart = null;
 		List lstRepairPart = null;
@@ -109,7 +129,7 @@ public class FalloutProcessor {
 
 				objPart = (FalloutPart) lstRepairPart.get(jVar);
 				objPartKit = (FalloutPartKit) _objFalloutData.getPartKitData().get(objPart.getPartKitId());
-
+				
 				if (null != objPartKit) {
 					totPartCount = objPartKit.getNoOfParts();
 
@@ -131,6 +151,7 @@ public class FalloutProcessor {
 		/*} catch (Exception e) {
 			logger.error("FalloutProcessor::processFallout: ", e);
 		}*/
+	    partFallOutVo.setFallOutPercentage(Double.toString(falloutPct));
 		return falloutPct;
 	}
 

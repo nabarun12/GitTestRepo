@@ -15,6 +15,20 @@ public class PartFalloutVO  implements Serializable {
 	private String replaceCost2;
 	private String replacePrice1;
 	private String replacePrice2;
+	private String fallOutPercentage;
+	private String fallOutCost;
+	public String getFallOutCost() {
+		return fallOutCost;
+	}
+	public void setFallOutCost(String fallOutCost) {
+		this.fallOutCost = fallOutCost;
+	}
+	public String getFallOutPercentage() {
+		return fallOutPercentage;
+	}
+	public void setFallOutPercentage(String fallOutPercentage) {
+		this.fallOutPercentage = fallOutPercentage;
+	}
 	public String getFhSinceRepair1() {
 		return fhSinceRepair1;
 	}

@@ -2,6 +2,7 @@ package inputprocessor;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -27,18 +28,50 @@ import data.FailureMode;
 import data.FalloutPart;
 import data.FalloutPartKit;
 import data.FinFalloutData;
+import data.PartFalloutVO;
 import data.StepPartKit;
 
 public class InputService {
 
-	public FinFalloutData processInputFallOutData() throws IOException{
+	public FinFalloutData processInputFallOutData(PartFalloutVO partVO) throws IOException{
 		FalloutPart inputData = new FalloutPart();
 		FinFalloutData inputDataFin = new FinFalloutData();
+		fillOutExcelWithInputData(partVO);
 		fillOutFinFalloutData(inputDataFin);
 		
 		return inputDataFin;
 		
 	}
+
+	
+public void fillOutExcelWithInputData(PartFalloutVO objFalloutData) throws IOException{
+	
+	FileInputStream fsIP= new FileInputStream("src/main/resources/FallOut_17396256.xlsx"); 
+	XSSFWorkbook wb = new XSSFWorkbook(fsIP); 
+	XSSFSheet worksheet = wb.getSheetAt(0); 
+	XSSFCell cell = null; 
+    cell = worksheet.getRow(1).getCell(3);   
+    cell.setCellValue(objFalloutData.getReplacePrice1());
+    cell = worksheet.getRow(1).getCell(4);   
+    cell.setCellValue(objFalloutData.getReplaceCost1());
+    cell = worksheet.getRow(2).getCell(3);   
+    cell.setCellValue(objFalloutData.getReplacePrice2());
+    cell = worksheet.getRow(2).getCell(4);   
+    cell.setCellValue(objFalloutData.getReplaceCost2());
+    worksheet = wb.getSheetAt(2);
+    cell = worksheet.getRow(1).getCell(6);   
+    cell.setCellValue(objFalloutData.getFhSinceRepair1());
+    cell = worksheet.getRow(1).getCell(7);   
+    cell.setCellValue(objFalloutData.getFsSinceRepair1());
+    cell = worksheet.getRow(2).getCell(6);   
+    cell.setCellValue(objFalloutData.getFhSinceRepair2());
+    cell = worksheet.getRow(2).getCell(7);   
+    cell.setCellValue(objFalloutData.getFsSinceRepair2());
+    fsIP.close(); 
+    FileOutputStream output_file =new FileOutputStream("src/main/resources/FallOut_17396256.xlsx"); 
+    wb.write(output_file); 
+    output_file.close();  
+}
 
 
 public void fillOutFinFalloutData(FinFalloutData objFalloutData) throws IOException{
