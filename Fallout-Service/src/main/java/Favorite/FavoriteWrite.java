@@ -40,7 +40,6 @@ public class FavoriteWrite {
 	    pw.append(objFalloutData.getFallOutPercentage());
 	    pw.append(',');
 	    pw.append(objFalloutData.getFallOutCost());
-	    pw.append(',');
 	    pw.append("\n");
 	    pw.close(); 
 	}

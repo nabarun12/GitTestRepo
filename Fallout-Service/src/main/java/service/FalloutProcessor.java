@@ -41,6 +41,7 @@ import data.FalloutPartKit;
 import  data.FinFalloutData;
 import data.PartFalloutVO;
 import data.PartLimitsVO;
+import data.PartOutputVO;
 import  data.FalloutPart;
 import  data.StepPartKit;
 
@@ -110,9 +111,9 @@ public class FalloutProcessor {
 		
 	}
    
-	public PartFalloutVO processFallout(FalloutPart outPart) {
+	public PartOutputVO processFallout(FalloutPart outPart) {
 		int jVar = 0;
-        PartFalloutVO partFallOutVo = new PartFalloutVO();
+		PartOutputVO partOutputVo = new PartOutputVO();
         PartLimitsVO partLimitsVo = new PartLimitsVO();
 		FalloutPartKit objPartKit = null;
 		FalloutPart objPart = null;
@@ -153,10 +154,10 @@ public class FalloutProcessor {
 		/*} catch (Exception e) {
 			logger.error("FalloutProcessor::processFallout: ", e);
 		}*/
-	    partFallOutVo.setFallOutPercentage(Double.toString((Math.round(falloutPct*100.0)/100.0)));
-	    partFallOutVo.setFallOutCost(Double.toString((Math.round((Double.parseDouble(partLimitsVo.getReplaceCost())*falloutPct)*100.0)/100.0)));
+			partOutputVo.setFallOutPercentage(Double.toString((Math.round(falloutPct*100.0)/100.0)));
+			partOutputVo.setFallOutCost(Double.toString((Math.round((Double.parseDouble(partLimitsVo.getReplaceCost())*falloutPct)*100.0)/100.0)));
 	    
-		return partFallOutVo;
+		return partOutputVo;
 	}
 
 	/**

@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 //import org.springframework.web.bind.annotation.c
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import data.FalloutPart;
 import data.PartFalloutVO;
+import data.PartOutputVO;
 import service.FalloutProcessor;
 
 
@@ -50,8 +52,7 @@ public class FalloutController {
     	method = RequestMethod.POST,
     	    consumes = "application/json")
 
-    	//public HashMap<Integer, ArrayList<RecommendationVO>> process(@RequestBody EmployeeVO empVo) throws Exception {
-    	public PartFalloutVO fallOutCalculation(@RequestBody PartFalloutVO partVo) throws Exception {
+    	public @ResponseBody PartOutputVO fallOutCalculation(@RequestBody PartFalloutVO partVo) throws Exception {
 
     	FalloutPart outPart = new FalloutPart();
     	outPart.setPartID("68823531");
@@ -65,7 +66,6 @@ public class FalloutController {
     	method = RequestMethod.POST,
     	    consumes = "application/json")
 
-    	//public HashMap<Integer, ArrayList<RecommendationVO>> process(@RequestBody EmployeeVO empVo) throws Exception {
     	public void favorite(@RequestBody PartFalloutVO partVo) throws Exception {
 
     	
@@ -80,13 +80,12 @@ public class FalloutController {
        
     	
     	}
-    
+    	
     @RequestMapping(
     	    value = "/readFavorite", 
     	method = RequestMethod.POST)
 
-    	//public HashMap<Integer, ArrayList<RecommendationVO>> process(@RequestBody EmployeeVO empVo) throws Exception {
-    	public PartFalloutVO readFavorite() throws Exception {
+    	public @ResponseBody PartFalloutVO readFavorite() throws Exception {
 
     	
     	return processor.readFromCSV();
