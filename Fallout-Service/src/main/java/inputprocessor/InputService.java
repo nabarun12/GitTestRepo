@@ -37,7 +37,7 @@ public class InputService {
 		FalloutPart inputData = new FalloutPart();
 		FinFalloutData inputDataFin = new FinFalloutData();
 		fillOutExcelWithInputData(partVO);
-		fillOutFinFalloutData(inputDataFin);
+		fillOutFinFalloutData(inputDataFin,partVO);
 		
 		return inputDataFin;
 		
@@ -59,13 +59,13 @@ public void fillOutExcelWithInputData(PartFalloutVO objFalloutData) throws IOExc
     cell = worksheet.getRow(2).getCell(4);   
     cell.setCellValue(objFalloutData.getReplaceCost2());
     worksheet = wb.getSheetAt(2);
-    cell = worksheet.getRow(1).getCell(6);   
+    cell = worksheet.getRow(1).getCell(5);   
     cell.setCellValue(objFalloutData.getFhSinceRepair1());
-    cell = worksheet.getRow(1).getCell(7);   
+    cell = worksheet.getRow(1).getCell(6);   
     cell.setCellValue(objFalloutData.getFsSinceRepair1());
-    cell = worksheet.getRow(2).getCell(6);   
+    cell = worksheet.getRow(2).getCell(5);   
     cell.setCellValue(objFalloutData.getFhSinceRepair2());
-    cell = worksheet.getRow(2).getCell(7);   
+    cell = worksheet.getRow(2).getCell(6);   
     cell.setCellValue(objFalloutData.getFsSinceRepair2());
     fsIP.close(); 
     FileOutputStream output_file =new FileOutputStream("src/main/resources/FallOut_17396256.xlsx"); 
@@ -74,9 +74,9 @@ public void fillOutExcelWithInputData(PartFalloutVO objFalloutData) throws IOExc
 }
 
 
-public void fillOutFinFalloutData(FinFalloutData objFalloutData) throws IOException{
+public void fillOutFinFalloutData(FinFalloutData objFalloutData,PartFalloutVO partVO) throws IOException{
    
-	List<FalloutPart> foPartLst = fillFalloutPart();
+	List<FalloutPart> foPartLst = fillFalloutPart(partVO);
 	Map<String,List<FalloutPart>> outMap =  objFalloutData.getPartData();
 	List<FalloutPart> partRepairList = new ArrayList<FalloutPart>(ARConstants.INITIAL_ARRAYLIST_SIZE);
 	String attribVal = null;
@@ -94,7 +94,7 @@ public void fillOutFinFalloutData(FinFalloutData objFalloutData) throws IOExcept
 		outMap.put(attribVal, partRepairList);
 	}
 	List<FalloutPartKit> lstPartData = null;
-	List<FalloutPartKit> foPartKistLst = fillFalloutPartKit();
+	List<FalloutPartKit> foPartKistLst = fillFalloutPartKit(partVO);
 	lstPartData = foPartKistLst;
 	
 	if (lstPartData != null && lstPartData.size() > 0) {
@@ -171,7 +171,7 @@ public void fillOutFinFalloutData(FinFalloutData objFalloutData) throws IOExcept
 		stepPartKitMap.put(firstPartKitId, singleStepPartKit);
 	}
 	objFalloutData.setStepPartKitData(stepPartKitMap);
-	List<PartLimitsVO> foCatPrmLst =  (List<PartLimitsVO>)fillSCatPrmList();
+	List<PartLimitsVO> foCatPrmLst =  (List<PartLimitsVO>)fillSCatPrmList(partVO);
 	if(foCatPrmLst != null && foCatPrmLst.size() > 0){
 		HashMap<String, PartLimitsVO> partKitCtlg = new HashMap<String, PartLimitsVO>();
 		for(int i = 0; i < foCatPrmLst.size(); i++){
@@ -185,7 +185,7 @@ public void fillOutFinFalloutData(FinFalloutData objFalloutData) throws IOExcept
 
  }
 
-public List<FalloutPart> fillFalloutPart(){
+public List<FalloutPart> fillFalloutPart(PartFalloutVO partVO) throws IOException{
 	
     List <FalloutPart> l1 = new ArrayList<FalloutPart>();
 	FalloutPart part=new FalloutPart(),part1= new FalloutPart();
@@ -194,25 +194,29 @@ public List<FalloutPart> fillFalloutPart(){
 	part.setPartKitId("13035219");
 	part.setEventID("707717");
 	part.setEquipID("3");
-	part.setHoursSinceInstall("12084.6");
-	part.setStartsSinceInstall("912");
-	part.setFFH("12084.6");
-	part.setFFS("912");
+	part.setHoursSinceInstall(partVO.getFhSinceRepair1());
+	part.setStartsSinceInstall(partVO.getFsSinceRepair1());
+	part.setFFH(partVO.getFhSinceRepair1());
+	part.setFFS(partVO.getFsSinceRepair1());
+	System.out.println(part.getFFH());
+	System.out.println(part.getFFS());
 	part1.setPartID("68823531");
 	part1.setRepairCount("2");
 	part1.setPartKitId("13035219");
 	part1.setEventID("707857");
 	part1.setEquipID("1");
-	part1.setHoursSinceInstall("12650.09");
-	part1.setStartsSinceInstall("900");
-	part1.setFFH("24734.69");
-	part1.setFFS("1812");
+	part1.setHoursSinceInstall(partVO.getFhSinceRepair2());
+	part1.setStartsSinceInstall(partVO.getFsSinceRepair2());
+	part1.setFFH(Double.toString((Double.parseDouble(partVO.getFhSinceRepair1())+Double.parseDouble(partVO.getFhSinceRepair2()))));
+	part1.setFFS(Double.toString((Double.parseDouble(partVO.getFsSinceRepair1())+Double.parseDouble(partVO.getFsSinceRepair2()))));
+	System.out.println(partVO.getFhSinceRepair2());
+	System.out.println(partVO.getFsSinceRepair2());
 	l1.add(part);l1.add(part1);
 	
 	return l1;
 }
 
-public List<FalloutPartKit> fillFalloutPartKit(){
+public List<FalloutPartKit> fillFalloutPartKit(PartFalloutVO  partVO) throws IOException{
 	
 	FalloutPartKit partKit = new FalloutPartKit();
 	FalloutPartKit partKit1 = new FalloutPartKit();
@@ -220,8 +224,8 @@ public List<FalloutPartKit> fillFalloutPartKit(){
 	partKit.setPartKitId("13035219");
 	partKit.setNoOfParts("92");
 	partKit.setPartKitRE("0");
-	partKit.setPartPrice("7111116.58");
-	partKit.setPartCost("597537.66");
+	partKit.setPartPrice(partVO.getReplacePrice1());
+	partKit.setPartCost(partVO.getReplaceCost1());
 	partKit.setDistributionType("STEP");
 	partKit.setFailureMode("FFH");
 	partKit.setDistributionTypeFunc("Constant");
@@ -234,8 +238,8 @@ public List<FalloutPartKit> fillFalloutPartKit(){
 	partKit1.setPartKitId("13035219");
 	partKit1.setNoOfParts("92");
 	partKit1.setPartKitRE("0");
-	partKit1.setPartPrice("7111116.58");
-	partKit1.setPartCost("597537.66");
+	partKit1.setPartPrice(partVO.getReplacePrice2());
+	partKit1.setPartCost(partVO.getReplaceCost2());
 	partKit1.setDistributionType("STEP");
 	partKit1.setFailureMode("FFS");
 	partKit1.setDistributionTypeFunc("Constant");
@@ -287,7 +291,7 @@ public  List<StepPartKit> fillStepPartKitList() throws IOException{
 }
 
 
-public List<PartLimitsVO> fillSCatPrmList() throws IOException{
+public List<PartLimitsVO> fillSCatPrmList(PartFalloutVO partVO) throws IOException{
 	
 	 List <PartLimitsVO> lstPartLimitsVo = new ArrayList<PartLimitsVO>();
 	    //InputStream ExcelFileToRead = new FileInputStream("C:/Projects/ICam/FallOut_17396256.xlsx");
@@ -325,10 +329,10 @@ public List<PartLimitsVO> fillSCatPrmList() throws IOException{
 			repairDetail.setRepairPrice(cell.getNumericCellValue()+"");
 			System.out.println(repairDetail.getRepairPrice());
 			cell=(XSSFCell) cells.next();
-			repairDetail.setReplaceCost(cell.getNumericCellValue()+"");
+			repairDetail.setReplaceCost(partVO.getReplaceCost1());
 			System.out.println(repairDetail.getReplaceCost());
 			cell=(XSSFCell) cells.next();  
-			repairDetail.setReplacePrice(cell.getNumericCellValue()+"");
+			repairDetail.setReplacePrice(partVO.getReplacePrice1());
 			System.out.println(repairDetail.getReplacePrice());
 			cell=(XSSFCell) cells.next();
 			repairDetail.setStartDate(formatter.format(cell.getDateCellValue())+"");

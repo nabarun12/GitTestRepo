@@ -32,21 +32,7 @@ public class FalloutController {
 	public String findContractById() {
 		return "Ping Successful";
 	}
-/*	
-    @RequestMapping("/cellular")
-    public String index() {
-    	FalloutPart outPart = new FalloutPart();
-    	outPart.setPartID("68823531");
-    	try {
-			processor.getInput();
-			return processor.processFallout(outPart)+" ";
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	logger.info("Finally Here");
-        return "Greetings from Spring Boot!";
-    }*/
+
     
     @RequestMapping(
     	    value = "/cellular", 
