@@ -154,7 +154,7 @@ public class FalloutProcessor {
 		/*} catch (Exception e) {
 			logger.error("FalloutProcessor::processFallout: ", e);
 		}*/
-			partOutputVo.setFallOutPercentage(Double.toString((Math.round(falloutPct*100.0)/100.0)));
+			partOutputVo.setFallOutPercentage(Double.toString((Math.round(falloutPct*10000.0)/10000.0)));
 			partOutputVo.setFallOutCost(Double.toString((Math.round((Double.parseDouble(partLimitsVo.getReplaceCost())*falloutPct)*100.0)/100.0)));
 	    
 		return partOutputVo;
