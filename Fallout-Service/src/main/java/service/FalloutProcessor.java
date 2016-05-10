@@ -31,8 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import Favorite.FavoriteRead;
-import Favorite.FavoriteWrite;
+import favorite.FavoriteRead;
+import favorite.FavoriteWrite;
 import  data.ARConstants;
 import  data.DistributionType;
 import  data.FailureMode;

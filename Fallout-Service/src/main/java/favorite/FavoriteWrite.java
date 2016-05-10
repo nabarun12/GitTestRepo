@@ -1,4 +1,4 @@
-package Favorite;
+package favorite;
 
 import java.io.File;
 import java.io.FileWriter;
